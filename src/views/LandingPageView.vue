@@ -18,7 +18,7 @@
                 <v-btn class=" rounded-xl text-none text-h5 font-weight-medium"
                     :class="isMobile ? 'align-self-center' : ''" color="var(--color-accent-light)" size="large"
                     :to="authStore.isLoggedIn ? '/platform' : '/login'">
-                    {{ authStore.isLoggedIn ? 'Ir para Plataforma' : 'Acessar' }}
+                    {{ authStore.isLoggedIn ? 'Acessar a Plataforma' : 'Acessar' }}
                 </v-btn>
             </div>
         </div>

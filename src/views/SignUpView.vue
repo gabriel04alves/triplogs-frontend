@@ -114,7 +114,7 @@ const handleSignUp = async () => {
 
         setTimeout(() => {
             router.push('/login')
-        }, 1000)
+        }, 500)
     }
 }
 </script>
