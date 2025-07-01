@@ -1,0 +1,19 @@
+.dark-theme {
+  /* ---------- Tema Claro ---------- */
+  --color-bg-light: #ffffff;
+  --color-text-light: #1a1a1a;
+  --color-accent-light: #cbef43; /* botão amarelo */
+  --color-accent-text-light: #000000; /* texto do botão */
+  --color-muted-light: #f0f0f0;
+  --color-border-light: #e0e0e0;
+}
+
+.day-theme {
+  /* ---------- Tema Escuro ---------- */
+  --color-bg-light: #121212;
+  --color-text-light: #ffffff;
+  --color-accent-light: #cbef43; /* botão amarelo permanece */
+  --color-accent-text-light: #000000; /* mantém legibilidade */
+  --color-muted-light: #1e1e1e;
+  --color-border-light: #333333;
+}
