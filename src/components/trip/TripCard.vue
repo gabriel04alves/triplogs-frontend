@@ -13,18 +13,16 @@
             {{ trip.location }}
         </v-card-subtitle>
 
-        <v-card-actions>
+        <v-card-actions class="d-flex justify-end ma-2">
             <v-btn color="lime" text="Explorar" @click="$emit('view-details', trip)">
             </v-btn>
 
-            <v-spacer></v-spacer>
-
-            <v-btn :icon="isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+            <!-- <v-btn :icon="isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
                 @click="$emit('toggle-expansion', trip.id)">
-            </v-btn>
+            </v-btn> -->
         </v-card-actions>
 
-        <v-expand-transition>
+        <!-- <v-expand-transition>
             <div v-show="isExpanded">
                 <v-divider></v-divider>
 
@@ -33,9 +31,9 @@
                         <v-icon color="lime">mdi-calendar-range</v-icon>
                         <span class="text-caption">{{ formatDate(trip.trip_date) }}</span>
                     </div>
-                    <div class="d-flex align-start ga-2">
+                    <div class="d-flex align-start ga-2 mr-5">
                         <v-icon color="lime" style="margin-top: 2px;">mdi-text</v-icon>
-                        <span class="text-body-2">{{ trip.description }}</span>
+                        <span class="text-body-2 w-100 text-pre-wrap">{{ trip.description }}</span>
                     </div>
                     <div class="d-flex justify-end mt-2">
                         <v-btn size="large" color="lime" variant="plain" icon="mdi-pencil"
@@ -49,7 +47,7 @@
                     </div>
                 </div>
             </div>
-        </v-expand-transition>
+        </v-expand-transition> -->
     </v-card>
 </template>
 

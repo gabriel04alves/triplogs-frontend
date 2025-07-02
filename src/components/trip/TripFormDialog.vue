@@ -34,7 +34,7 @@
 
                         <v-col cols="12">
                             <v-text-field color="lime" clearable label="URL da Foto" variant="outlined"
-                                v-model="formData.photo" prepend-icon="mdi-camera"
+                                v-model="formData.photo" prepend-inner-icon="mdi-camera"
                                 placeholder="https://exemplo.com/sua-imagem.jpg" :rules="validationRules.photo" />
                         </v-col>
 

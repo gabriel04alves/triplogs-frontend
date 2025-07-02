@@ -7,23 +7,14 @@
         <PlatformTitle @add-trip="handleOpenAddDialog" />
 
         <!-- Search Field -->
-        <SearchField 
-            v-if="showSearchField"
-            v-model:search="searchQuery"
-            :total-count="trips.length"
-            :filtered-count="filteredTrips.length"
-            @update:search="searchQuery = $event"
-        />
+        <SearchField v-if="showSearchField" v-model:search="searchQuery" :total-count="trips.length"
+            :filtered-count="filteredTrips.length" @update:search="searchQuery = $event" />
 
         <!-- Notification Messages -->
-        <NotificationBars
-            :error-message="errorMessage"
-            :success-message="successMessage"
-            :show-error-message="showErrorMessage"
-            :show-success-message="showSuccessMessage"
+        <NotificationBars :error-message="errorMessage" :success-message="successMessage"
+            :show-error-message="showErrorMessage" :show-success-message="showSuccessMessage"
             @update:show-error-message="showErrorMessage = $event"
-            @update:show-success-message="showSuccessMessage = $event"
-        />
+            @update:show-success-message="showSuccessMessage = $event" />
 
         <!-- Loading state -->
         <div v-if="showLoading" class="d-flex justify-center mt-16">
@@ -31,45 +22,23 @@
         </div>
 
         <!-- Trip List -->
-        <TripList v-else-if="showTripList"
-            :trips="filteredTrips"
-            :expanded-cards="expandedCards"
-            @view-details="viewTripDetails"
-            @toggle-expansion="toggleCardExpansion"
-            @edit-trip="handleEditTrip"
-            @delete-trip="handleDeleteTrip"
-        />
+        <TripList v-else-if="showTripList" :trips="filteredTrips" :expanded-cards="expandedCards"
+            @view-details="viewTripDetails" @toggle-expansion="toggleCardExpansion" @edit-trip="handleEditTrip"
+            @delete-trip="handleDeleteTrip" />
 
         <!-- Empty state -->
-        <EmptyState v-else-if="showEmptyState"
-            v-bind="getEmptyStateConfig(false)"
-            @action="handleOpenAddDialog"
-        />
+        <EmptyState v-else-if="showEmptyState" v-bind="getEmptyStateConfig(false)" @action="handleOpenAddDialog" />
 
         <!-- No search results -->
-        <EmptyState v-else-if="showNoResults"
-            v-bind="getEmptyStateConfig(true)"
-            @action="clearSearch"
-        />
+        <EmptyState v-else-if="showNoResults" v-bind="getEmptyStateConfig(true)" @action="clearSearch" />
 
         <!-- Trip Form Dialog -->
-        <TripFormDialog
-            v-model="showTripDialog"
-            :trip-data="currentTripData"
-            :loading="loading"
-            :is-edit="isEditMode"
-            @submit="handleSubmitTrip"
-            @cancel="handleCancelForm"
-        />
+        <TripFormDialog v-model="showTripDialog" :trip-data="currentTripData" :loading="loading" :is-edit="isEditMode"
+            @submit="handleSubmitTrip" @cancel="handleCancelForm" />
 
         <!-- Delete Confirmation Dialog -->
-        <DeleteTripDialog
-            v-model="showDeleteDialog"
-            :trip-title="tripToDelete?.title || ''"
-            :loading="loading"
-            @confirm="handleConfirmDelete"
-            @cancel="handleCancelDelete"
-        />
+        <DeleteTripDialog v-model="showDeleteDialog" :trip-title="tripToDelete?.title || ''" :loading="loading"
+            @confirm="handleConfirmDelete" @cancel="handleCancelDelete" />
     </div>
 </template>
 
@@ -95,25 +64,25 @@ const {
     searchQuery,
     filteredTrips,
     clearSearch,
-    
+
     // Estado das notificações
     errorMessage,
     successMessage,
     showErrorMessage,
     showSuccessMessage,
-    
+
     // Estado dos diálogos
     showTripDialog,
     currentTripData,
     isEditMode,
     showDeleteDialog,
     tripToDelete,
-    
+
     // Estado dos cards
     expandedCards,
     toggleCardExpansion,
     viewTripDetails,
-    
+
     // Layout states
     showLoading,
     showTripList,
@@ -121,7 +90,7 @@ const {
     showNoResults,
     showSearchField,
     getEmptyStateConfig,
-    
+
     // Handlers
     handleOpenAddDialog,
     handleEditTrip,
