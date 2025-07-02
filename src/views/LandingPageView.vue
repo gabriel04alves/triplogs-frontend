@@ -15,9 +15,11 @@
                         experiências
                         inesquecíveis.</h2>
                 </div>
-                <v-btn v - btn class=" rounded-xl text-none text-h5 font-weight-medium"
-                    :class="isMobile ? 'align-self-center' : ''" color="var(--color-accent-light)"
-                    size="large">Começar</v-btn>
+                <v-btn class=" rounded-xl text-none text-h5 font-weight-medium"
+                    :class="isMobile ? 'align-self-center' : ''" color="var(--color-accent-light)" size="large"
+                    :to="authStore.isLoggedIn ? '/platform' : '/login'">
+                    {{ authStore.isLoggedIn ? 'Acessar a Plataforma' : 'Acessar' }}
+                </v-btn>
             </div>
         </div>
     </v-parallax>
@@ -27,10 +29,17 @@
 <script setup>
 import HeaderComponent from '../components/HeaderComponent.vue';
 import { useDisplay } from 'vuetify';
+import { useAuthStore } from '../store/authStore';
+import { onMounted } from 'vue';
 
 const { mobile } = useDisplay();
 const isMobile = mobile;
+const authStore = useAuthStore();
 
+// Verificar autenticação ao montar o componente
+onMounted(() => {
+    authStore.checkAuth();
+});
 </script>
 
 <style>

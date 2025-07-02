@@ -8,6 +8,7 @@ import "./assets/css/variables.css";
 import "./assets/css/main.css";
 
 import { useThemeStore } from "./store/themeStore";
+import { useAuthStore } from "./store/authStore";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -18,5 +19,11 @@ app.use(vuetify);
 
 app.mount("#app");
 
+// Inicializar stores
 const themeStore = useThemeStore();
+const authStore = useAuthStore();
+
 themeStore.applyTheme();
+
+// Verificar autenticação ao inicializar a aplicação
+authStore.checkAuth();

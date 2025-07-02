@@ -1,4 +1,4 @@
-.dark-theme {
+.day-theme {
   /* ---------- Tema Claro ---------- */
   --color-bg-light: #ffffff;
   --color-text-light: #1a1a1a;
@@ -8,7 +8,7 @@
   --color-border-light: #e0e0e0;
 }
 
-.day-theme {
+.dark-theme {
   /* ---------- Tema Escuro ---------- */
   --color-bg-light: #121212;
   --color-text-light: #ffffff;
