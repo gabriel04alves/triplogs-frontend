@@ -1,6 +1,6 @@
 import { authService } from "./auth/index.js";
 import { userService } from "./user/index.js";
-// import { tripService } from "./trip/index.js";
+import { tripService } from "./trip/index.js";
 
 class ApiService {
   async login(email, password) {
@@ -27,9 +27,9 @@ class ApiService {
     return userService.getUsers();
   }
 
-  // async getTrips() {
-  //   return tripService.getTrips();
-  // }
+  async getTrips() {
+    return tripService.getTrips();
+  }
 }
 
 export default new ApiService();

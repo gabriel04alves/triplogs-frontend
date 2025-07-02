@@ -1,105 +1,159 @@
 <template>
     <div class="bg-custom h-100">
-        <div class="d-flex justify-space-between py-6 px-15">
-            <v-btn icon to="/" variant="plain" class="no-decoration">
-                <v-icon class="" color="white" size="50">mdi-compass</v-icon>
-            </v-btn>
+        <!-- Header -->
+        <PlatformHeader />
 
-            <v-menu>
-                <template v-slot:activator="{ props }">
-                    <v-btn class="no-decoration text-none text-h6" size="large" color="white" variant="plain"
-                        ripple="false" v-bind="props">
-                        {{ authStore.user?.name || authStore.user?.email || 'Usuário' }}
-                        <v-icon end>mdi-chevron-down</v-icon>
-                    </v-btn>
-                </template>
+        <!-- Title and Add Button -->
+        <PlatformTitle @add-trip="handleOpenAddDialog" />
 
-                <v-list class="d-flex flex-column ga-1 mt-5 py-1 px-1 rounded-xl" bg-color="grey-darken-4"
-                    elevation="6">
-                    <!-- <v-list-item prepend-icon="mdi-account" title="Perfil" @click="showProfile = true"></v-list-item> -->
-                    <v-list-item class="text-red" prepend-icon="mdi-logout" title="Sair"
-                        @click="handleLogout"></v-list-item>
-                </v-list>
-            </v-menu>
+        <!-- Search Field -->
+        <SearchField 
+            v-if="showSearchField"
+            v-model:search="searchQuery"
+            :total-count="trips.length"
+            :filtered-count="filteredTrips.length"
+            @update:search="searchQuery = $event"
+        />
 
+        <!-- Notification Messages -->
+        <NotificationBars
+            :error-message="errorMessage"
+            :success-message="successMessage"
+            :show-error-message="showErrorMessage"
+            :show-success-message="showSuccessMessage"
+            @update:show-error-message="showErrorMessage = $event"
+            @update:show-success-message="showSuccessMessage = $event"
+        />
+
+        <!-- Loading state -->
+        <div v-if="showLoading" class="d-flex justify-center mt-16">
+            <v-progress-circular indeterminate color="lime" size="64"></v-progress-circular>
         </div>
-        <div class="d-flex justify-space-between px-15 mt-16">
-            <h1 class="text-h4 text-white font-weight-regular">Meus Destinos</h1>
-            <div>
-                <v-btn class="icon text-none text-h6 font-weight-medium" append-icon="mdi-map-marker-plus-outline"
-                    color="lime" text="Adicionar história" variant="plain" size="large" ripple="false">
-                </v-btn>
-            </div>
-        </div>
-        <div class="d-flex flex-wrap justify-center ga-16">
-            <v-card class="mx-auto rounded-xl" color="grey-darken-4" width="300">
-                <v-img height="200px" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-img>
 
-                <v-card-title>
-                    <v-icon>mdi-airplane</v-icon>
-                    title
-                </v-card-title>
+        <!-- Trip List -->
+        <TripList v-else-if="showTripList"
+            :trips="filteredTrips"
+            :expanded-cards="expandedCards"
+            @view-details="viewTripDetails"
+            @toggle-expansion="toggleCardExpansion"
+            @edit-trip="handleEditTrip"
+            @delete-trip="handleDeleteTrip"
+        />
 
-                <v-card-subtitle>
-                    <v-icon>mdi-map</v-icon>
-                    location
-                </v-card-subtitle>
+        <!-- Empty state -->
+        <EmptyState v-else-if="showEmptyState"
+            v-bind="getEmptyStateConfig(false)"
+            @action="handleOpenAddDialog"
+        />
 
-                <v-card-actions>
-                    <v-btn color="lime" text="Explore"></v-btn>
+        <!-- No search results -->
+        <EmptyState v-else-if="showNoResults"
+            v-bind="getEmptyStateConfig(true)"
+            @action="clearSearch"
+        />
 
-                    <v-spacer></v-spacer>
+        <!-- Trip Form Dialog -->
+        <TripFormDialog
+            v-model="showTripDialog"
+            :trip-data="currentTripData"
+            :loading="loading"
+            :is-edit="isEditMode"
+            @submit="handleSubmitTrip"
+            @cancel="handleCancelForm"
+        />
 
-                    <v-btn :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="show = !show"></v-btn>
-                </v-card-actions>
-
-                <v-expand-transition>
-                    <div v-show="show">
-                        <v-divider></v-divider>
-
-
-                        <div class="d-flex flex-column ga-3 pa-5" color="grey-darken-4">
-                            <div>
-                                <v-icon>mdi-calendar-range</v-icon> date
-                            </div>
-                            <div class="">
-                                ~ description
-                            </div>
-                        </div>
-                    </div>
-                </v-expand-transition>
-            </v-card>
-        </div>
+        <!-- Delete Confirmation Dialog -->
+        <DeleteTripDialog
+            v-model="showDeleteDialog"
+            :trip-title="tripToDelete?.title || ''"
+            :loading="loading"
+            @confirm="handleConfirmDelete"
+            @cancel="handleCancelDelete"
+        />
     </div>
-
-
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '../store/authStore'
+// Components
+import PlatformHeader from '../components/platform/PlatformHeader.vue'
+import PlatformTitle from '../components/platform/PlatformTitle.vue'
+import SearchField from '../components/platform/SearchField.vue'
+import TripList from '../components/trip/TripList.vue'
+import TripFormDialog from '../components/trip/TripFormDialog.vue'
+import DeleteTripDialog from '../components/trip/DeleteTripDialog.vue'
+import EmptyState from '../components/common/EmptyState.vue'
+import NotificationBars from '../components/common/NotificationBars.vue'
 
-const router = useRouter()
-const authStore = useAuthStore()
-const show = ref(false)
+// Composables
+import { usePlatform } from '../composables/usePlatform'
 
-onMounted(async () => {
-    const isAuthenticated = await authStore.checkAuth()
-    if (!isAuthenticated) {
-        router.push('/login')
-    }
-})
-
-const handleLogout = () => {
-    authStore.logout()
-    router.push('/')
-}
-
+// Usar o composable principal que centraliza toda a lógica
+const {
+    // Estado das viagens
+    trips,
+    loading,
+    searchQuery,
+    filteredTrips,
+    clearSearch,
+    
+    // Estado das notificações
+    errorMessage,
+    successMessage,
+    showErrorMessage,
+    showSuccessMessage,
+    
+    // Estado dos diálogos
+    showTripDialog,
+    currentTripData,
+    isEditMode,
+    showDeleteDialog,
+    tripToDelete,
+    
+    // Estado dos cards
+    expandedCards,
+    toggleCardExpansion,
+    viewTripDetails,
+    
+    // Layout states
+    showLoading,
+    showTripList,
+    showEmptyState,
+    showNoResults,
+    showSearchField,
+    getEmptyStateConfig,
+    
+    // Handlers
+    handleOpenAddDialog,
+    handleEditTrip,
+    handleDeleteTrip,
+    handleSubmitTrip,
+    handleCancelForm,
+    handleConfirmDelete,
+    handleCancelDelete
+} = usePlatform()
 </script>
 
 <style scoped>
 .bg-custom {
     background-color: var(--color-bg-light);
+}
+
+/* Animação suave para o loading */
+.v-progress-circular {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 </style>

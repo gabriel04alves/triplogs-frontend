@@ -20,7 +20,7 @@ export const API_ENDPOINTS = {
   },
   TRIPS: {
     BASE: "/trips/",
-    USER_TRIPS: "/trips/me/",
+    USER_TRIPS: "/trips/",
   },
 };
 

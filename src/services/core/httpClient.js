@@ -68,6 +68,11 @@ class HttpClient {
           errorMessage = fieldErrors.join("; ");
         }
       }
+    } else if (error.response?.status) {
+      // Add status code information to error message
+      errorMessage = `Erro ${error.response.status}: ${
+        error.response.statusText || "Erro no servidor"
+      }`;
     } else if (error.message) {
       errorMessage = error.message;
     }

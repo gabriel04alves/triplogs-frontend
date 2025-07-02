@@ -7,4 +7,4 @@ export {
 
 export { authService } from "./auth/index.js";
 export { userService } from "./user/index.js";
-// export { tripService } from "./trip/index.js";
+export { tripService } from "./trip/index.js";
