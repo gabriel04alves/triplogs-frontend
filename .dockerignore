@@ -1,0 +1,44 @@
+# Dependency directories
+node_modules
+.pnpm
+.npm
+
+# Build output
+dist
+build
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Local environment files
+.env.local
+.env.*.local
+
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Git related
+.git
+.gitignore
+
+# Docker related
+Dockerfile
+.dockerignore
+docker-compose*
+
+# Cache
+.cache
+.temp
+
+# Tests
+test
+tests
+coverage

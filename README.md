@@ -166,6 +166,26 @@ A aplicação utiliza autenticação baseada em JWT (JSON Web Tokens) com:
 - **Guards de Rota** - Proteção de rotas autenticadas
 - **Interceptors HTTP** - Adição automática de tokens nas requisições
 
+## Docker
+
+### Construir a imagem
+
+Para construir a imagem Docker, execute:
+
+```bash
+docker build -t triplogs-frontend .
+```
+
+### Executar o contêiner
+
+Para executar o contêiner, utilize:
+
+```bash
+docker run -d -p 8080:80 --name triplogs-app triplogs-frontend
+```
+
+Isso irá iniciar a aplicação, acessível em http://localhost:8080
+
 ## Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
