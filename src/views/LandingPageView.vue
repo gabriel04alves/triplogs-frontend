@@ -1,5 +1,5 @@
 <template>
-    <v-parallax height="100vh" src="../../public/img0001.jpg" gradient="rgba(0,0,0,0.69)" cover>
+    <v-parallax height="100vh" src="/img0001.jpg" gradient="rgba(0,0,0,0.69)" cover>
         <v-icon class="px-16 pt-10" color="white" size="50">mdi-compass</v-icon>
         <!-- <HeaderComponent /> -->
         <div class="d-flex fill-height">
