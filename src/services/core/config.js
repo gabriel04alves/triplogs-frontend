@@ -9,18 +9,18 @@ export const API_CONFIG = {
 
 export const API_ENDPOINTS = {
   AUTH: {
-    LOGIN: "api/token/",
-    REFRESH: "api/token/refresh/",
-    VERIFY: "api/token/verify/",
+    LOGIN: "token/",
+    REFRESH: "token/refresh/",
+    VERIFY: "token/verify/",
   },
   USERS: {
-    BASE: "api/usuarios/",
-    ME: "api/usuarios/me/",
+    BASE: "usuarios/",
+    ME: "usuarios/me/",
     REGISTER: "/usuarios/",
   },
   TRIPS: {
-    BASE: "api/trips/",
-    USER_TRIPS: "api/trips/",
+    BASE: "trips/",
+    USER_TRIPS: "trips/",
   },
 };
 
